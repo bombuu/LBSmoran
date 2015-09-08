@@ -9,8 +9,8 @@
 
 #import "AppDelegate.h"
 #import "LBSTabbarController.h"
-
-
+#import "LBSNewFeatureController.h"
+#import "LBSSinaAuthorizeController.h"
 @interface AppDelegate ()
 
 @end
@@ -23,7 +23,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] init];
     self.window.frame = [[UIScreen mainScreen] bounds];
+    NSString *key = @"CFBundleVersion";
 
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[key];
+    NSLog(@"%@  %@   %@",currentVersion,lastVersion,[NSUserDefaults standardUserDefaults]);
 
     LBSTabbarController *uiTabBarController = [[LBSTabbarController alloc] init];
     
@@ -36,9 +41,17 @@
 
 
     [uiTabBarController.view addSubview:cameraButton];
+    LBSNewFeatureController *lbsNewFeatureController = [[LBSNewFeatureController alloc] init];
+//    self.window.rootViewController = uiTabBarController;
+//    self.window.rootViewController = lbsNewFeatureController;
 
+    LBSSinaAuthorizeController *lbsSinaAuthorizeController = [[LBSSinaAuthorizeController alloc] init];
 
-    self.window.rootViewController = uiTabBarController;
+    if (lastVersion == currentVersion) {
+        self.window.rootViewController = uiTabBarController;
+    }else {
+        self.window.rootViewController = lbsSinaAuthorizeController;
+    }
     [self.window makeKeyAndVisible];
 
 

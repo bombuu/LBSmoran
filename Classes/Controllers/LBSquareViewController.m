@@ -9,6 +9,11 @@
 
 #import "LBSquareViewController.h"
 #import "LBSProfile.h"
+#import "UIView+Extension.h"
+#import "CustomSearchBar.h"
+//#import "CustomPopMenu.h"
+#import "LBSTitleDropdownContent.h"
+
 
 @interface LBSquareViewController ()
 
@@ -16,8 +21,36 @@
 
 @implementation LBSquareViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //use UIButton build text_With_Icon View
+    UIButton *titleButton = [[UIButton alloc] init];
+    titleButton.width = 180;
+    titleButton.height = 40;
+    [titleButton setTitle:@"附近1000米" forState:UIControlStateNormal];
+    [titleButton setImage:[UIImage imageNamed:@"navigationbar_arrow_down"] forState:UIControlStateNormal];
+    [titleButton setImage:[UIImage imageNamed:@"navigationbar_arrow_down"] forState:UIControlStateHighlighted];
+    [titleButton setImage:[UIImage imageNamed:@"navigationbar_arrow_up"] forState:UIControlStateSelected];
+    [titleButton addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+    titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 148, 0,
+                                                   20);
+
+    self.navigationItem.titleView = titleButton;
+
+}
+
+- (void)click:(UIButton *)sender {
+//    CustomPopMenu *customPopMenu = [CustomPopMenu menu];
+    LBSTitleDropdownContent *lbsTitleDropdownContent = [[LBSTitleDropdownContent alloc] init];
+    lbsTitleDropdownContent.view.height = 120;
+    lbsTitleDropdownContent.view.width = 180;
+
+//    customPopMenu.contentViewController = lbsTitleDropdownContent;
+//    [customPopMenu showFrom:(sender)];
+    [sender setSelected:YES];
+    //ToDo: You need to set other button performance
 
 }
 
@@ -44,7 +77,7 @@
                                  initWithStyle:UITableViewCellStyleSubtitle
                                reuseIdentifier:testIdentifyer];
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"line = %d", indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"line = %i", indexPath.row];
     // Configure the cell...
 
     return cell;
